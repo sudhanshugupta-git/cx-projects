@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast Notifications</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="success" onclick="toast({ type: 'success', content: 'Event successful!', duration: 9000 })">Success</button>
+    <button class="error" onclick="toast({ type: 'error', content: 'An error occurred!', duration: 9000 })">Error</button>
+    <button class="info" onclick="toast({ type: 'info', content: 'Some information.', duration: 9000 })">Info</button>
+    <button class="warning" onclick="toast({ type: 'warning', content: 'This is a warning!', duration: 9000 })">Warning</button>
+    
+    <div id="toast" class="toast">
+        <span id="toast-icon" class="toast-icon"></span>
+        <span id="toast-message"></span>
+        <span class="close-btn" onclick="closeToast()">&times;</span>
+    </div>
+
+    <script src="script.js"> 
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.success { background-color: green; }
+.error { background-color: red; }
+.info { background-color: blue; }
+.warning { background-color: orange; }
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px;
+    color: white;
+    border-radius: 5px;
+    display: none;
+    font-size: 18px;
+    /* display: flex; */
+    align-items: center;
+    gap: 10px;
+}
+.toast-icon {
+    font-size: 20px;
+}
+.close-btn {
+    margin-left: auto;
+    cursor: pointer;
+    font-weight: bold;
+}
