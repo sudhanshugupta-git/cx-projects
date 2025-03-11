@@ -7,16 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button class="success" onclick="toast({ type: 'success', content: 'Event successful!', duration: 9000 })">Success</button>
-    <button class="error" onclick="toast({ type: 'error', content: 'An error occurred!', duration: 9000 })">Error</button>
-    <button class="info" onclick="toast({ type: 'info', content: 'Some information.', duration: 9000 })">Info</button>
-    <button class="warning" onclick="toast({ type: 'warning', content: 'This is a warning!', duration: 9000 })">Warning</button>
+    <button class="success" onclick="toast({ type: 'success', content: 'Event successful!', duration: 5000 })">Success</button>
+    <button class="error" onclick="toast({ type: 'error', content: 'An error occurred!', duration: 5000 })">Error</button>
+    <button class="info" onclick="toast({ type: 'info', content: 'Some information.', duration: 5000 })">Info</button>
+    <button class="warning" onclick="toast({ type: 'warning', content: 'This is a warning!', duration: 5000 })">Warning</button>
     
-    <div id="toast" class="toast">
+    <!-- <div id="toast" class="toast">
         <span id="toast-icon" class="toast-icon"></span>
         <span id="toast-message"></span>
         <span class="close-btn" onclick="closeToast()">&times;</span>
-    </div>
+    </div> -->
+
+    <div class="toast-container" id="toast-container"></div>
 
     <script src="script.js"> 
     </script>
