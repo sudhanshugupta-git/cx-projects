@@ -8,19 +8,19 @@ function toast({ type, content, duration }) {
 
     switch (type) {
         case "success":
-            bgColor = "#35A808";
+            // bgColor = "#35A808";
             iconSymbol = "✔️";
             break;
         case "error":
-            bgColor = "#EE6253";
+            // bgColor = "#EE6253";
             iconSymbol = "❌";
             break;
         case "info":
-            bgColor = "blue";
+            // bgColor = "blue";
             iconSymbol = "ℹ️";
             break;
         case "warning":
-            bgColor = "#E8E805";
+            // bgColor = "#E8E805";
             iconSymbol = "⚠️";
             break;
     }
@@ -33,7 +33,7 @@ function toast({ type, content, duration }) {
     const toastContainer = document.getElementById("toast-container");
 
     const toast = document.createElement("div");
-    toast.className = "toast";
+    toast.className = `toast ${type}`;
     toast.style.backgroundColor = bgColor;
     toast.textContent = `${iconSymbol}  ${content}`;
     

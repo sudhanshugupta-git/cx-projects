@@ -35,6 +35,19 @@ button {
     overflow: hidden;
 }
 
+.toast.success{
+    background-color: "#35A808";
+}
+.toast.error{
+    background-color: "#EE6253";
+}
+.toast.info{
+    background-color: blue;
+}
+.toast.warning{
+    background-color: "#E8E805";
+}
+
 .toast-icon {
     font-size: 20px;
 }
@@ -46,7 +59,6 @@ button {
     cursor: pointer;
     margin-left: 10px;
 }
-
 
 .toast .progress {
     position: absolute;
