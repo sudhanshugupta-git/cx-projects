@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Sudhanshu Gupta">
+    <meta name="keywords" content="Instagram, Hashtag Generator, Social Media">
+    <meta name="description"
+        content="Generate relevant hashtags for your Instagram posts to boost engagement and reach.">
+    <title>Instagram Hashtag Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="title">
+                <img src="instagram-icon.png" alt="Instagram Logo" class="icon">
+                <p style="margin-left: 5px;">Create <b>#hashtags</b> for Your Post</p>
+            </div>
+            <button id="generateBtn" aria-label="Generate Hashtags">Generate</button>
+        </header>
+
+        <main>
+            <textarea id="postText" placeholder="Type post content here..."></textarea>
+
+            <div class="hidden">
+                <button id="copyAllBtn" aria-label="Copy Hashtags">
+                    <img src="copy.png" alt="Copy hashtags" class="copy">
+                </button>
+                <div id="hashtags" aria-live="polite"></div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
