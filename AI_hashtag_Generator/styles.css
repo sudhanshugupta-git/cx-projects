@@ -43,12 +43,16 @@ textarea {
     border: 1px solid #ccc;
 }
 
+button{
+    cursor: pointer;
+}
+
 #generateBtn {
     width: 25%;
     border: none;
     padding: 10px;
     color: white;
-    cursor: pointer;
+    /* cursor: pointer; */
     font-size: 16px;
     margin-top: 10px;
     border-radius: 5px;
@@ -62,6 +66,7 @@ textarea {
 .hidden{
     display: none;
 }
+
 
 img{
     width: 30px;
