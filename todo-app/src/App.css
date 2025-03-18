@@ -1,0 +1,109 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(-240deg, #e9b42e, #f8b500);
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  width: 99vw;
+  height: auto;
+  min-height: 90vh;
+}
+
+.App {
+  padding: 10px;
+  min-width: 360px;
+  width: 50%;
+  height: auto; /* Full viewport height */
+  background-color: white; /* Keep your background color */
+  text-align: center;
+  border-radius: 8px;
+}
+
+
+input {
+  padding: 10px;
+  width: 250px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #148eda;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1384cb;
+}
+
+.todo-item {
+  background-color: white;
+  margin: 10px auto;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.todo-item.completed span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.actions .check {
+  color: green;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.actions .delete {
+  color: red;
+  cursor: pointer;
+}
+
+
+.highlight {
+  animation: highlight 0.5s ease-in-out;
+}
+
+@keyframes highlight {
+  0% { border: 1px solid #ccc;}
+  25% {border: 1px solid #929292; scale: 1.01; }
+  50% { border: 1px solid #484848; scale: 1.02; }
+  75% {border: 1px solid #929292; scale: 1.01; }
+  100% { border: 1px solid #ccc;}
+}
+
+
+.footer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footer button{
+  background-color: rgb(29, 168, 29);
+}
+.footer button:hover{
+  background-color: rgb(17, 142, 17);
+}
+
+
+
+.todo-item .actions .delete {
+  visibility: hidden; 
+  opacity: 0;
+  transition: visibility 0.1s, opacity 0.1s ease-in-out; 
+}
+
+.todo-item:hover .actions .delete {
+  visibility: visible;
+  opacity: 1;
+}
