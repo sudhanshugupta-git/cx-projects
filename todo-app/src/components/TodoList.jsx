@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import TodoForm from './TodoForm';
 import TodoItem from './TodoItem';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
@@ -43,22 +44,39 @@ const TodoList = () => {
       <h1>Todo App</h1>
       <TodoForm addTodo={addTodo} />
       <div className="todo-list">
-          <>
-            {todos.map(todo => (
+        <>
+          {/* {todos.map(todo => (
               <TodoItem  
                 key={todo.id} 
                 todo={todo} 
                 completeTodo={completeTodo} 
                 removeTodo={removeTodo} 
               />
+            ))} */}
+          <AnimatePresence>
+            {todos.map(todo => (
+              <motion.div
+                key={todo.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.4 }}
+              >
+                <TodoItem
+                  todo={todo}
+                  completeTodo={completeTodo}
+                  removeTodo={removeTodo}
+                />
+              </motion.div>
             ))}
-            <div className="footer">
-                <p>You have {count} pending tasks {' '}
-                {count === 0 ? '🎉' : ''}</p>
-                <button onClick={removeAll}>Clear All</button>
-            </div>
-          </>
-      </div> 
+          </AnimatePresence>
+          <div className="footer">
+            <p>You have {count} pending tasks {' '}
+              {count === 0 ? '🎉' : ''}</p>
+            <button onClick={removeAll}>Clear All</button>
+          </div>
+        </>
+      </div>
     </div>
   );
 };
