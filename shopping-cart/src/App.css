@@ -1,0 +1,104 @@
+
+.app{
+  margin: 0;;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.header{
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  padding:  0 20px 0 20px;;
+  border: 2px solid red;
+}
+
+.product{
+  display: flex;
+  width: 95%;
+  align-items: center;
+  flex-direction: column;
+}
+
+.grid {
+  display: grid;
+  /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+  grid-template-columns: auto auto auto;
+  gap: 50px;
+}
+
+.card{
+  display: flex;
+  border: 2px solid black;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.card img{
+  width: 250px;
+}
+
+.details{
+  display: flex;
+  justify-content: space-around;
+}
+
+.card button{
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  /* background-color: rgba(0, 128, 0, 0.831); */
+  color: white;
+}
+.card button:hover{
+  /* background-color: green; */
+  scale: .95;
+}
+
+.remove{
+  background-color: red;
+}
+
+.add{
+  background-color: rgba(0, 128, 0, 0.831);
+}
+
+.cart{
+  width: 95%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  /* border: 2px solid black; */
+}
+
+.items{
+  width: 100%;
+}
+.item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border: 2px solid red; */
+}
+
+.item img{
+  width: 200px;
+}
+
+.count{
+  display: flex;
+  gap: 10px;
+}
+
+.count button{
+  /* border: 1px solid black; */
+  border-radius: 50%;
+  font-size: larger;
+  /* margin: 0;
+  padding: 5px; */
+  width: 25px;
+}
