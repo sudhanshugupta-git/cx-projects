@@ -11,7 +11,7 @@ const CartPage = ({ cart, updateCart, removeFromCart }) => {
           <div className="items">
             {cart.map((item, index) => (
               <div key={index} className="item">
-                <img src={item.image} alt={item.name} className="" />
+                <img src={item.imageUrl} alt={item.name} className="" />
                 <div>
                   <p>{item.name}</p>
                   <p>Rs {item.price}</p>

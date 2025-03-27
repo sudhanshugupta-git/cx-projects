@@ -1,0 +1,7 @@
+Use includes for a simple check for a value's existence.(it compares reference)
+
+Use some to see if at least one element satisfies a condition.
+
+Use find to get the first element matching a condition.
+
+Use filter (instead of findAll) to get all matching elements.

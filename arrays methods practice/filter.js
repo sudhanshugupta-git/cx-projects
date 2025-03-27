@@ -27,3 +27,25 @@ function filter(arr, callback) {
 const arr = [1, 2, 3, 4, 5];
 
 console.log("filter:", filter(arr, value => value % 2 === 0));
+
+
+
+// Array of objects
+const products = [
+    { id: 1, name: 'Laptop', category: 'Electronics', price: 700 },
+    { id: 2, name: 'Book', category: 'Stationery', price: 15 },
+    { id: 3, name: 'Smartphone', category: 'Electronics', price: 500 },
+    { id: 4, name: 'Pen', category: 'Stationery', price: 2 },
+    { id: 5, name: 'Tablet', category: 'Electronics', price: 300 }
+  ];
+
+
+  // Using "filter" to get all products in the 'Electronics' category
+  const allElectronics = products.filter(product => product.category === 'Electronics');
+  console.log(allElectronics);
+  // Output:
+  // [
+  //   { id: 1, name: 'Laptop', category: 'Electronics', price: 700 },
+  //   { id: 3, name: 'Smartphone', category: 'Electronics', price: 500 },
+  //   { id: 5, name: 'Tablet', category: 'Electronics', price: 300 }
+  // ]
