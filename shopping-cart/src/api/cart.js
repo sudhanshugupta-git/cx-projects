@@ -6,8 +6,11 @@ const useCart = () => {
 
   const addToCart = async (product) => {
     try {
+      // console.log(product);
+      product = {...product, productId:product.id};
+      // console.log(product.data);
       const response = await axios.post("http://localhost:5000/api/cart/", product);
-      // console.log(response.data.data);
+      console.log(response);
       setCart(response.data.data); 
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -15,11 +18,13 @@ const useCart = () => {
   };
 
   const handleCartToggle = async (product) => {
-    const existingItem = cart.find((item) => item.id === product.id);
+    console.log(product);
+    // const existingItem = cart.find((item) => item.id === product.id);
+    const existingItem = cart.find((item) => item.productId === product.id);
     if (existingItem) {
       try {
         const response = await axios.delete(`http://localhost:5000/api/cart/${product.id}`);
-        console.log(response.data.data);
+        // console.log(response);
         setCart(response.data.data); 
       } catch (error) {
         console.error("Error removing from cart:", error);
