@@ -23,7 +23,7 @@ sequelize.sync({ alter: true })  // use `{ force: true }` if you want to drop & 
     });
 
 // listening
-const PORT = 5000;
+const PORT = process.env.PORT;
 server.listen(PORT, async () => {
     console.log(`Server is listening on port: ${PORT}`);
     // console.log(sequelize);
