@@ -10,7 +10,6 @@ const useCart = () => {
       // console.log(product);
       product = {...product, productId:product.id};
       // console.log(product.data);
-      // const response = await axios.post("http://localhost:5000/api/cart/", product);
       const response = await axios.post(apiUrl, product);
       console.log(response);
       setCart(response.data.data); 
@@ -25,7 +24,6 @@ const useCart = () => {
     const existingItem = cart.find((item) => item.productId === product.id);
     if (existingItem) {
       try {
-        // const response = await axios.delete(`http://localhost:5000/api/cart/${product.id}`);
         const response = await axios.delete(apiUrl+product.id);
         // console.log(response);
         setCart(response.data.data); 
@@ -40,7 +38,6 @@ const useCart = () => {
   const updateCart = async (id, quantity) => {
     try {
       // console.log(quantity);
-      // const response = await axios.patch(`http://localhost:5000/api/cart/${id}`, {quantity} );
       const response = await axios.patch(apiUrl+id, {quantity} );
       // console.log(response);
       setCart(response.data.data); 
@@ -51,7 +48,6 @@ const useCart = () => {
 
   const removeFromCart = async (id) => {
     try {
-      // const response = await axios.delete(`http://localhost:5000/api/cart/${id}`);
       const response = await axios.delete(apiUrl+id);
       // console.log(response);
       setCart(response.data.data); 
