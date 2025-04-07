@@ -21,7 +21,7 @@ const CartPage = ({ cart, updateCart, removeFromCart }) => {
                   <p className="">{item.quantity}</p>
                   <button className="" onClick={() => updateCart(item.id, item.quantity + 1)}>+</button>
                 </div>
-                  <button className="" onClick={() => removeFromCart(item.id)}>Remove</button>
+                  <button className="" onClick={() => removeFromCart(item.productId)}>Remove</button>
               </div>
             ))}
             <h3 className="">Grand Total: Rs {calculateTotal()}</h3>

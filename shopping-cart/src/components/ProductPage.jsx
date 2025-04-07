@@ -70,11 +70,11 @@ const ProductPage = ({cart, handleCartToggle }) => {
             </div>
             <button
               // className={cart.includes(product) ? 'remove' : 'add'}   // includes compares reference, here the products and cart are two different arrays so comparision will return  false.
-              className={cart.some((item) => item.id === product.id) ? 'remove' : 'add'}
+              className={cart.some((item) => item.productId === product.id) ? 'remove' : 'add'}
               onClick={() => handleCartToggle(product)}
             >
               {/* {cart.includes(product) ? 'Remove from Cart' : 'Add to Cart'} */}
-              {cart.some((item) => item.id === product.id) ? 'Remove from Cart' : 'Add to Cart'}
+              {cart.some((item) => item.productId === product.id) ? 'Remove from Cart' : 'Add to Cart'}
             </button>
           </div>
         ))}

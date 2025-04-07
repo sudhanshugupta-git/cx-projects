@@ -4,7 +4,7 @@ import { Sequelize } from 'sequelize';
 
 
 // Initialize Sequelize with database connection
-const sequelize = new Sequelize('eCartProducts', 'root', '#Aradhya@Sudha0182', {
+const sequelize = new Sequelize('eCartProducts', 'root', 'mydbpass', {
     host: 'localhost',
     dialect: 'mysql',
     timezone: '+05:30', // Set to your local timezone (IST in this case)

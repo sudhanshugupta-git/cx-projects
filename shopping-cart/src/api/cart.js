@@ -18,7 +18,7 @@ const useCart = () => {
   };
 
   const handleCartToggle = async (product) => {
-    console.log(product);
+    // console.log(product);
     // const existingItem = cart.find((item) => item.id === product.id);
     const existingItem = cart.find((item) => item.productId === product.id);
     if (existingItem) {
