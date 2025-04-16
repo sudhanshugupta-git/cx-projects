@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import sequelize from './src/config/index.js';
 import formRouter from './src/routers/formRouter.js';
+import userRouter from './src/routers/userRouter.js';
 import setupAssociations from './src/schema/association.js';
 
 const app = express();
@@ -15,8 +16,8 @@ app.get('/', (req, res)=>{
     res.send("Welcome to form API");
 });
 
-// app.use('/api/forms', formRouter);
-app.use(process.env.URL, formRouter);
+app.use(process.env.FORM_URL, formRouter);
+app.use(process.env.USER_URL, userRouter);
 
 app.listen(PORT, async () => {
     try {
