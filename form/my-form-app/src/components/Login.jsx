@@ -1,33 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/AuthContext";
 
-export default function Login({ setIsLoggedIn }) {
+export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { isLoggedIn, setIsLoggedIn, setUserId} = useAuth();
 
-    //   const handleLogin = async () => {
-    //     try {
-    //       const res = await fetch("http://localhost:3000/api/user/signin", {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({ email, password }),
-    //       });
+    useEffect(() => {
+        if (isLoggedIn) {
+          navigate("/");
+        }
+      }, [isLoggedIn]);
 
-    //       console.log("Raw response:", res); 
-
-    //       if (res.ok) {
-    //         setIsLoggedIn(true);
-    //         navigate("/");
-    //       } else {
-    //         const data = await res.json();
-    //         alert(data.message || "Login failed");
-    //       }
-    //     } catch (err) {
-    //       alert("Something went wrong");
-    //     }
-    //   };
-
+      
     const handleLogin = async () => {
         try {
             const res = await fetch("http://localhost:3000/api/user/signin", {
@@ -37,11 +24,11 @@ export default function Login({ setIsLoggedIn }) {
             });
 
             const data = await res.json();
+            // console.log(data.user.id);
+            setUserId(data.user.id)
 
             if (res.ok) {
-                localStorage.setItem("token", data.token);
                 setIsLoggedIn(true);
-                navigate("/");
             } else {
                 alert(data.message || "Login failed");
             }

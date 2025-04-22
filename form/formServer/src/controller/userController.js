@@ -64,7 +64,7 @@ class UserController {
     async signIn(req, res, next) {
         try {
             const user = await User.findOne({ where: { email: req.body.email } });
-    
+            console.log(user.id);
             if (!user) {
                 return res.status(400).send('User not found!');
             }
@@ -88,7 +88,7 @@ class UserController {
             );
     
             console.log('Token created:', token);
-            return res.status(200).json({token});
+            return res.status(200).json({token, user});
     
         } catch (err) {
             console.error('Error during signIn:', err);

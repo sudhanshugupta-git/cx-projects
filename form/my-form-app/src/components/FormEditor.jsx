@@ -8,7 +8,7 @@ export default function FormEditor({
   setFormDescription,
   questions,
   setQuestions,
-
+  handlePublish,
   onPublishTrigger,
   setOnPublishTrigger,
   setIsValidForm,
@@ -118,18 +118,32 @@ export default function FormEditor({
 
         ))}
 
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            handleAddQuestion();
-          }}
-          className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-md mb-5 hover:opacity-90"
-        >
-          ➕ Add Question
-        </button>
+        <div className="flex justify-between">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              handleAddQuestion();
+            }}
+            className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-md mb-5 hover:opacity-90"
+          >
+            ➕ Add Question
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              handlePublish();
+            }}
+            className="bg-green-500 text-white px-4 py-2 rounded-md mb-5 hover:opacity-90"
+          >
+            🚀 Publish
+          </button>
+        </div>
+
       </form>
 
 
     </div>
+
   );
 }
