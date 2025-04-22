@@ -1,25 +1,33 @@
-// models/user.js
+
 export default (sequelize, DataTypes) => {
-    const User = sequelize.define('User', {
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
+  const User = sequelize.define('User', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
       },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
-    });
-  
-    User.associate = (models) => {
-      // A user can have many blogs
-      User.hasMany(models.Blog, {
-        foreignKey: 'userId',
-        as: 'blogs',
-      });
-    };
-  
-    return User;
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  });
+
+  User.associate = (models) => {
+    User.hasMany(models.Blog, { foreignKey: 'userId' });
   };
-  
+
+  return User;
+};
