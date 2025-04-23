@@ -25,9 +25,11 @@ export default function Login() {
 
             const data = await res.json();
             // console.log(data.user.id);
-            setUserId(data.user.id)
 
             if (res.ok) {
+                localStorage.setItem("token", data.token);
+                setUserId(data.user.id); 
+                setIsLoggedIn(true);
                 setIsLoggedIn(true);
             } else {
                 alert(data.message || "Login failed");

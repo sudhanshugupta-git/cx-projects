@@ -22,109 +22,13 @@ export default function Home() {
     createdFormId,
     onPublishTrigger,
     setOnPublishTrigger,
-    isValidForm,
     setIsValidForm,
     showPopup,
     setShowPopup,
     handlePublish,
+    isPublished
   } = useFormPublish({ formTitle, formDescription, questions });
 
-
-  // useEffect(() => {
-  //   const savedForm = localStorage.getItem('form');
-  //   if (savedForm) {
-  //     const parsed = JSON.parse(savedForm);
-  //     setFormTitle(parsed.title || '');
-  //     setFormDescription(parsed.description || '');
-  //     setQuestions(parsed.questions || []);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const data = { title: formTitle, description: formDescription, questions };
-  //   localStorage.setItem('form', JSON.stringify(data));
-  // }, [formTitle, formDescription, questions]);
-
-
-
-  // useEffect(() => {
-  //   if (isValidForm) {
-  //     console.log('📤 Published Form:', { title: formTitle, description: formDescription, questions });
-  //     setShowPopup(true);
-  //     // setTimeout(() => setShowPopup(false), 5000);
-  //     // Reset
-  //     setIsValidForm(false); 
-  //     setFormTitle('');
-  //     setFormDescription('');
-  //     setQuestions([]);
-  //     // localStorage.removeItem('form');  // commented as u are not using it now
-  //   }
-  // }, [isValidForm]);
-
-
-  // useEffect(()=>{
-  //   console.log(isLoggedIn);
-  // }, [isLoggedIn])
-
-  // const handlePublish = () => {
-  //   setOnPublishTrigger(true);
-  // };
-
-
-  // useEffect(() => {
-  //   const submitForm = async () => {
-  //     try {
-  //       const formResponse = await fetch('http://localhost:3000/api/form', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({
-  //           name: formTitle,
-  //           description: formDescription,
-  //         }),
-  //       });
-
-  //       if (!formResponse.ok) throw new Error('Failed to create form');
-
-  //       const { form } = await formResponse.json();
-  //       const formId = form.id;
-  //       setCreatedFormId(formId);
-
-  //       for (const q of questions) {
-  //         await fetch(`http://localhost:3000/api/form/input/${formId}`, {
-  //           method: 'POST',
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //           },
-  //           body: JSON.stringify({
-  //             question: q.question,
-  //             type: q.type,
-  //             // options: q.options ?? [],
-  //           }),
-  //         });
-  //       }
-
-  //       console.log('✅ Form and questions saved successfully.');
-
-  //       setShowPopup(true);
-
-  //       // Reset form
-  //       // setIsValidForm(false);
-  //       // setFormTitle('');
-  //       // setFormDescription('');
-  //       // setQuestions([]);
-
-  //     } catch (error) {
-  //       console.error('❌ Error submitting form:', error);
-  //     }
-  //   };
-
-  //   if (isValidForm) {
-  //     console.log('📤 Publishing Form:', { title: formTitle, description: formDescription, questions });
-  //     submitForm();
-  //   }
-  // }, [isValidForm]);
 
 
   return (
@@ -158,6 +62,7 @@ export default function Home() {
             formDescription={formDescription}
             questions={questions}
             formId={createdFormId}
+            isPublished = {isPublished}
           />
 
         </div>

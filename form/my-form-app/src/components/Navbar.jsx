@@ -16,6 +16,7 @@ export default function Navbar() {
             <button
               onClick={() => {
                 setIsLoggedIn(false);
+                localStorage.removeItem("token");
                 navigate("/");
               }}
               className="text-red-500 underline"

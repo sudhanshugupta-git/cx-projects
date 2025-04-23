@@ -6,6 +6,7 @@ export default function useFormPublish({ formTitle, formDescription, questions }
   const [onPublishTrigger, setOnPublishTrigger] = useState(false);
   const [isValidForm, setIsValidForm] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [isPublished, setIsPublished] = useState(false);
 
 const {userId} = useAuth();
   useEffect(() => {
@@ -29,16 +30,18 @@ const {userId} = useAuth();
             body: JSON.stringify({ question: q.question, type: q.type }),
           });
         }
-
+        
         console.log('✅ Form and questions saved successfully.');
         setShowPopup(true);
+        setIsPublished(true);
 
       } catch (err) {
         console.error('❌ Error submitting form:', err);
       }
     };
 
-    if (isValidForm) {
+    if (isValidForm) {  
+      // console.log('📤 Publishing Form:', { title: formTitle, description: formDescription, questions });
       submitForm();
     }
   }, [isValidForm]);
@@ -56,5 +59,6 @@ const {userId} = useAuth();
     showPopup,
     setShowPopup,
     handlePublish,
+    isPublished
   };
 }

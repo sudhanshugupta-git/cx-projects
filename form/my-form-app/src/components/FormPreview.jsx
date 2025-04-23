@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ResponseSuccessPopup from './ResponseSuccessPopup';
 
 
-export default function FormPreview({ formTitle, formDescription, questions, formId }) {
+export default function FormPreview({ formTitle, formDescription, questions, formId, isPublished }) {
   const [responses, setResponses] = useState({});
 
   const [showSuccess, setShowSuccess] = useState(false);
@@ -85,9 +85,16 @@ export default function FormPreview({ formTitle, formDescription, questions, for
         <button
           onClick={handleSubmit}
           className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
+          disabled={!isPublished}
         >
           Submit
         </button>
+
+
+        {!isPublished && (
+          <p className="text-red-500 font-medium mt-2">⚠️ Submission is disabled. Publish the form first. </p>
+        )}
+
       </div>
 
       {showSuccess && (
