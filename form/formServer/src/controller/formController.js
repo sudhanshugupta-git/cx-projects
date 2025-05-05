@@ -13,6 +13,31 @@ class FormController {
     }
   }
 
+
+  async getSpecificForm(req, res) {
+    try {
+      console.log('Fetching form with ID:', req.params.id);
+      const { id } = req.params;
+  
+      const form = await Form.findAll({ where: { id } });
+      console.log('Query executed. Result:', form);
+  
+      if (!form) {
+        console.log('Form not found');
+        return res.status(404).json({ message: 'Form not found' });
+      }
+  
+      res.status(200).json(form);
+    } catch (error) {
+      console.error('Error in getSpecificForm:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+  
+
+  
+  
+
   // Create a new form
   async createForm(req, res) {
     try {
@@ -34,13 +59,13 @@ class FormController {
   async addInputFields(req, res) {
     try {
       const { id: form_id } = req.params;
-      const { question, type } = req.body;
+      const { question, type, options } = req.body;
 
       if (!question || !type) {
         return res.status(400).json({ message: 'Question and type are required.' });
-      }
+      } 
 
-      const newInputField = await InputField.create({ form_id, question, type });
+      const newInputField = await InputField.create({ form_id, question, type, options });
       res.status(201).json({ message: 'Input field created successfully', inputField: newInputField });
     } catch (error) {
       console.error('Error creating input field:', error);
@@ -52,6 +77,7 @@ class FormController {
   async getInputFields(req, res) {
     try {
       const { id: form_id } = req.params;
+      
       const inputFields = await InputField.findAll({ where: { form_id } });
 
       if (inputFields.length > 0) {
@@ -84,13 +110,43 @@ class FormController {
   }
 
   // Retrieve responses for a specific form
+  // async getResponses(req, res) {
+  //   try {
+  //     const { id: form_id } = req.params;
+  //     const responses = await Response.findAll({ where: { form_id } });
+
+  //     if (responses.length > 0) {
+  //       res.status(200).json({ responses });
+  //     } else {
+  //       res.status(404).json({ message: 'No responses found for the given form ID' });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching responses:', error);
+  //     res.status(500).json({ message: 'Error fetching responses', error: error.message });
+  //   }
+  // }
+
   async getResponses(req, res) {
     try {
       const { id: form_id } = req.params;
       const responses = await Response.findAll({ where: { form_id } });
-
+  
       if (responses.length > 0) {
-        res.status(200).json({ responses });
+        // Grouping by createdAt timestamp
+        const grouped = responses.reduce((acc, curr) => {
+          const time = curr.createdAt.toISOString(); // Normalize timestamp
+          let group = acc.find(g => g.timestamp === time);
+  
+          if (!group) {
+            group = { timestamp: time, responses: [] };
+            acc.push(group);
+          }
+  
+          group.responses.push({ question: curr.question, answer: curr.answer });
+          return acc;
+        }, []);
+  
+        res.status(200).json({ groupedResponses: grouped });
       } else {
         res.status(404).json({ message: 'No responses found for the given form ID' });
       }
@@ -99,6 +155,9 @@ class FormController {
       res.status(500).json({ message: 'Error fetching responses', error: error.message });
     }
   }
+  
+
+  
 }
 
 export default new FormController();

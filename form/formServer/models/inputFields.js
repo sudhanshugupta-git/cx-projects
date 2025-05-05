@@ -13,6 +13,10 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      options: {
+        type: DataTypes.JSON, 
+        allowNull: true,
+      },
       form_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -24,7 +28,7 @@ export default (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
       }
     }, {
-      tableName: 'input_fields',
+      tableName: 'inputfields',
       timestamps: true,
     });
   

@@ -27,7 +27,7 @@ const {userId} = useAuth();
           await fetch(`http://localhost:3000/api/form/input/${formId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question: q.question, type: q.type }),
+            body: JSON.stringify({ question: q.question, type: q.type, options: q.options }),
           });
         }
         
@@ -41,7 +41,7 @@ const {userId} = useAuth();
     };
 
     if (isValidForm) {  
-      // console.log('📤 Publishing Form:', { title: formTitle, description: formDescription, questions });
+      console.log('📤 Publishing Form:', { title: formTitle, description: formDescription, questions });
       submitForm();
     }
   }, [isValidForm]);

@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import FormEditor from './components/FormEditor';
 import FormPreview from './components/FormPreview';
 import PopupMessage from './components/PopupMessage';
@@ -36,7 +35,6 @@ export default function Home() {
 
       {showPopup && (
         <PopupMessage
-          message="✅ Form published successfully!"
           onClose={() => setShowPopup(false)}
         />
       )}

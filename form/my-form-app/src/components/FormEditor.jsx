@@ -15,40 +15,37 @@ export default function FormEditor({
 }) {
   const [errors, setErrors] = useState([]);
 
-  const validateForm = () => {
-    const newErrors = [];
+  useEffect(() => {
+    const savedTitle = localStorage.getItem('formTitle');
+    const savedDescription = localStorage.getItem('formDescription');
+    const savedQuestions = localStorage.getItem('questions');
 
-    if (!formTitle.trim()) {
-      newErrors.push('📛 Form title is required!');
+    if (savedTitle) setFormTitle(savedTitle);
+    if (savedDescription) setFormDescription(savedDescription);
+  }, []);
+
+
+  useEffect(() => {
+    localStorage.setItem('formTitle', formTitle);
+    localStorage.setItem('formDescription', formDescription);
+    localStorage.setItem('questions', JSON.stringify(questions));
+  }, [formTitle, formDescription, questions]);
+
+  const handleReset = () => {
+    if (window.confirm('Are you sure you want to reset the form? This will clear all data.')) {
+      setFormTitle('');
+      setFormDescription('');
+      setQuestions([]);
+      setErrors([]);
+      localStorage.removeItem('formTitle');
+      localStorage.removeItem('formDescription');
+      localStorage.removeItem('questions');
     }
-
-    if (!formDescription.trim()) {
-      newErrors.push('🧾 Form description is required!');
-    }
-
-    if (questions.length === 0) {
-      newErrors.push('📝 Add at least one question to publish the form!');
-    }
-
-    questions.forEach((q, idx) => {
-      if (!q.question.trim()) {
-        newErrors.push(`❓ Question ${idx + 1} must have text!`);
-      }
-
-      if (q.type === 'checkbox') {
-        if (!q.options.length || q.options.some(opt => !opt.trim())) {
-          newErrors.push(`🔘 All checkbox options in Question ${idx + 1} must be filled!`);
-        }
-      }
-    });
-
-    return newErrors;
   };
 
   useEffect(() => {
     if (onPublishTrigger) {
       const foundErrors = validateForm();
-
       if (foundErrors.length > 0) {
         setErrors(foundErrors);
         setIsValidForm(false);
@@ -56,30 +53,51 @@ export default function FormEditor({
         setErrors([]);
         setIsValidForm(true);
       }
-
       setOnPublishTrigger(false);
     }
   }, [onPublishTrigger]);
 
 
+  const validateForm = () => {
+    const newErrors = [];
+
+    if (!formTitle.trim()) newErrors.push('📛 Form title is required!');
+    if (!formDescription.trim()) newErrors.push('🧾 Form description is required!');
+    if (questions.length === 0) newErrors.push('📝 Add at least one question!');
+
+    questions.forEach((q, idx) => {
+      if (!q.question.trim()) newErrors.push(`❓ Question ${idx + 1} must have text!`);
+      if (q.type === 'checkbox' || q.type === 'multiple_choice') {
+        if (!q.options.length || q.options.some(opt => !opt.trim())) {
+          newErrors.push(`🔘 All options in Question ${idx + 1} must be filled!`);
+        }
+      }
+    });
+
+    return newErrors;
+  };
 
   const handleAddQuestion = () => {
     setQuestions([...questions, { question: '', type: 'short_answer', options: [''] }]);
   };
 
-
-
   return (
     <div className="bg-white/70 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-indigo-200">
+
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={handleReset}
+          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+        >
+          🔄 Reset Form
+        </button>
+      </div>
+
 
       {errors.length > 0 && (
         <div className="mb-4 p-4 bg-red-100 border border-red-300 text-red-700 rounded-md">
           <ul className="list-disc ml-5 space-y-1 text-sm">
-            {/* {errors.map((err, i) => (
-              <li key={i}>{err}</li>
-            ))} */}
             <li>{errors[0]}</li>
-
           </ul>
         </div>
       )}
@@ -104,6 +122,7 @@ export default function FormEditor({
           className="w-full p-2 mb-4 rounded-md border border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
         />
 
+
         {questions.map((q, i) => (
           <div key={i} className="mb-4">
             <label htmlFor={`question-${i}`} className="text-gray-600 font-medium">Question {i + 1}</label>
@@ -115,7 +134,6 @@ export default function FormEditor({
               setQuestions={setQuestions}
             />
           </div>
-
         ))}
 
         <div className="flex justify-between">
@@ -139,11 +157,7 @@ export default function FormEditor({
             🚀 Publish
           </button>
         </div>
-
       </form>
-
-
     </div>
-
   );
 }

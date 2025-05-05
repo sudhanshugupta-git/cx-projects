@@ -9,6 +9,10 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { NotFound } from "./components/NotFound";
 
+import FormsPage from "./components/FormsPage";
+import SubmitForm from "./components/SubmitForm";
+import ResponsesPage from "./components/ResponsesPage";
+
 export default function App() {
 
   const router = createBrowserRouter([
@@ -28,6 +32,18 @@ export default function App() {
         {
           path: "signup",
           element: <Signup />
+        },
+        {
+          path: "forms",
+          element: <FormsPage />
+        },
+        {
+          path: "form/:id",
+          element: <SubmitForm />
+        },
+        {
+          path: "form/:id/responses",
+          element: <ResponsesPage />
         }
       ]
     }

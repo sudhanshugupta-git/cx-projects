@@ -9,17 +9,23 @@ export default function Navbar() {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 bg-white shadow-md p-4 flex justify-between items-center z-10">
-        <h1 className="text-lg font-bold">Form Creator</h1>
+        <h1 className="text-lg font-bold cursor-pointer" onClick={() => navigate("/")}>Forms</h1>
 
         {isLoggedIn ? (
-          <div className="flex gap-4">
+          <div className="flex gap-4 items-center">
+            <button
+              onClick={() => navigate("/forms")}
+              className="text-blue-600 hover:underline cursor-pointer"
+            >
+              All Forms
+            </button>
             <button
               onClick={() => {
                 setIsLoggedIn(false);
                 localStorage.removeItem("token");
                 navigate("/");
               }}
-              className="text-red-500 underline"
+              className="text-red-500 underline cursor-pointer"
             >
               Logout
             </button>
@@ -28,13 +34,13 @@ export default function Navbar() {
           <div className="flex gap-4">
             <button
               onClick={() => navigate("/login")}
-              className="text-indigo-500 underline"
+              className="text-indigo-500 underline cursor-pointer"
             >
               Login
             </button>
             <button
               onClick={() => navigate("/signup")}
-              className="text-indigo-500 underline"
+              className="text-indigo-500 underline cursor-pointer"
             >
               Signup
             </button>
