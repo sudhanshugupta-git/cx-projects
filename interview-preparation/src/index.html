@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Questions Generator</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Interview Questions Generator</h1>
+        <div id="topics-container">
+            <h2>Select Topics:</h2>
+            <div class="topics">
+                <button class="topic-btn" data-topic="Java">Java</button>
+                <button class="topic-btn" data-topic="HTML">HTML</button>
+                <button class="topic-btn" data-topic="CSS">CSS</button>
+                <button class="topic-btn" data-topic="JavaScript">JavaScript</button>
+                <button class="topic-btn" data-topic="Node.js">Node.js</button>
+                <button class="topic-btn" data-topic="Express">Express</button>
+                <button class="topic-btn" data-topic="React">React</button>
+                <button class="topic-btn" data-topic="SQL">SQL</button>
+                <button class="topic-btn" data-topic="MongoDB">MongoDB</button>
+                <button class="topic-btn" data-topic="System Design">System Design</button>
+            </div>
+            
+        </div>
+        <button id="generate-btn">Generate Questions</button>
+        <div id="questions-container">
+            <h2>Interview Questions:</h2>
+            <ul id="questions-list"></ul>
+        </div>
+    </div>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
