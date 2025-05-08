@@ -17,15 +17,18 @@ const Questions = ({ questions }) => {
     };
   }, [questions]);
 
+
   return (
-    <ul className="questions-container">
-      <h2>Questions</h2>
-      {visibleQuestions.map((question, index) => (
-        <li key={index} className="question-item">
-          {question.question}
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul className="questions-container">
+        <h2>Questions</h2>
+        {visibleQuestions.map((question, index) => (
+          <li key={index} className="question-item">
+            {question.question}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

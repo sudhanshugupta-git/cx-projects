@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Topics.css'; // Ensure the CSS file is imported for styling
 
 const Topics = ({ onSelectTopic }) => {
   const topics = [
@@ -37,7 +38,7 @@ const Topics = ({ onSelectTopic }) => {
         ))}
       </div>
       <button id="generate-btn" onClick={handleGenerate}>
-        Generate Questions
+        Start Interview
       </button>
     </div>
   );
