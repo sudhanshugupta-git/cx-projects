@@ -5,8 +5,8 @@ import ChatWindow from './ChatWindow';
 // import Questions from './Questions';
 
 const App = () => {
-  const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState([]);
   const [showChat, setShowChat] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState([]);
 
@@ -23,7 +23,7 @@ const App = () => {
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" +
       API_KEY;
 
-    const prompt = `Here are some topics: '${selectedTopics.join(", ")}'. Generate 10 relevant and important questions based on these topics.`;
+    const prompt = `Here are some topics: '${selectedTopics.join(", ")}'. Generate 3 relevant and important questions based on these topics. Keep Diffculty level between easy to medium. Make sure the answer is not too long.`;
 
     try {
       const response = await fetch(url, {
@@ -60,6 +60,7 @@ const App = () => {
       }
 
       const data = await response.json();
+      // console.log("API Response:", data);
       const rawResponse = data.candidates[0].content.parts[0].text;
       // console.log("Raw API Response:", rawResponse); 
 
@@ -93,6 +94,10 @@ const App = () => {
           <p className="loading-animation">Starting...</p>
         </div>
       ) : (
+        // <div className="questions-container">
+        //   <Questions questions={questions} />
+        //   {showChat && <ChatWindow topic={selectedTopics} questions={questions} onClose={handleCloseChat} />}
+        // </div>
         showChat && <ChatWindow topic={selectedTopics} questions={questions} onClose={handleCloseChat} />
       )}
     </div>

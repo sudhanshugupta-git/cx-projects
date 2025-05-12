@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Topics.css'; // Ensure the CSS file is imported for styling
+import './Topics.css'; 
 
 const Topics = ({ onSelectTopic }) => {
   const topics = [
@@ -13,13 +13,11 @@ const Topics = ({ onSelectTopic }) => {
       const updatedSelection = prevSelected.includes(topic)
         ? prevSelected.filter((t) => t !== topic)
         : [...prevSelected, topic];
-      // console.log("Selected Topics:", updatedSelection); 
       return updatedSelection;
     });
   };
 
   const handleGenerate = () => {
-    // console.log("Generating questions for topics:", selectedTopics);
     onSelectTopic(selectedTopics);
   };
 
