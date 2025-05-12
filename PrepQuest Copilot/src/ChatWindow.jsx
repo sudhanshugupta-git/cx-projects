@@ -28,9 +28,10 @@ export default function InterviewChat({ topic, questions, onClose }) {
                 
                 ${questions.map((q, i) => `${i + 1}. ${q.question}`).join("\n")}
 
-                Chat with the user like a proper interview. At first, greet the user. After that give the first question.
-                After each answer, ask the user if they want to add anything else to the answer, if not then move to the next question
-                Don't ask the question directly, instead ask "Do you want to add anything else to your answer?"
+                Chat with the user like a proper interviewer. At first, greet the user. After that send another text to ask the first question.
+                After each answer, ask the user if they want to add anything else to the answer, If the user says "no", then move to the next question.
+                Don't ask the next question directly, when you are asking "Do you want to add anything else to your answer?"
+                If the user says "yes", then wait for the user to add more information and then ask again if they want to add anything else.
                 If the user says "no", then move to the next question.
                 Do not overexplain things, always move forward with the interview,
                 
