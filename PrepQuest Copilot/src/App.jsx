@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Topics from './Topics';
-import ChatWindow from './ChatWindow';
+import InterviewChat from './InterviewChat';
 // import Questions from './Questions';
 
 const App = () => {
@@ -96,9 +96,9 @@ const App = () => {
       ) : (
         // <div className="questions-container">
         //   <Questions questions={questions} />
-        //   {showChat && <ChatWindow topic={selectedTopics} questions={questions} onClose={handleCloseChat} />}
+        //   {showChat && <InterviewChat topic={selectedTopics} questions={questions} onClose={handleCloseChat} />}
         // </div>
-        showChat && <ChatWindow topic={selectedTopics} questions={questions} onClose={handleCloseChat} />
+        showChat && <InterviewChat topic={selectedTopics} questions={questions} onClose={handleCloseChat} />
       )}
     </div>
   );
