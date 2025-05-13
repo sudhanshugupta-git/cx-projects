@@ -8,8 +8,8 @@ export default function FeedbackCard({ messages, apiKey, model, onClose }) {
   useEffect(() => {
     const fetchFeedback = async () => {
       const historyText = messages
-        .map((msg) =>
-          `${msg.sender === "bot" ? "Eva" : "Candidate"}: ${msg.text}`
+        .map(
+          (msg) => `${msg.sender === "bot" ? "Eva" : "Candidate"}: ${msg.text}`
         )
         .join("\n");
 
@@ -58,6 +58,13 @@ export default function FeedbackCard({ messages, apiKey, model, onClose }) {
     fetchFeedback();
   }, [messages, apiKey, model]);
 
+  const getEmojiForScore = (score) => {
+    if (score > 9) return "🌟🏆💯";
+    if (score > 7) return "🎉👏";
+    if (score >= 5) return "👍";
+    return "🤔";
+  };
+
   return (
     <div className="feedback-card-overlay">
       <div className="feedback-card">
@@ -66,8 +73,15 @@ export default function FeedbackCard({ messages, apiKey, model, onClose }) {
           <p>Loading feedback...</p>
         ) : (
           <>
-            <p><strong>Score:</strong> {score}/10</p>
-            <p><strong>Feedback:</strong> {feedback}</p>
+            <p>
+              <strong>Score:</strong> {score}/10{" "}
+              <span role="img" aria-label="score feedback">
+                {getEmojiForScore(score)}
+              </span>
+            </p>
+            <p>
+              <strong>Feedback:</strong> {feedback}
+            </p>
           </>
         )}
         <button className="close-button" onClick={onClose}>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import Topics from './Topics';
-import InterviewChat from './InterviewChat';
+import Topics from './topics/Topics';
+import InterviewChat from './interview/InterviewChat';
 // import Questions from './Questions';
 
 const App = () => {

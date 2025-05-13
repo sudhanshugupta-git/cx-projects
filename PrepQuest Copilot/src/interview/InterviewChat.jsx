@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./InterviewChat.css";
-import FeedbackCard from "./FeedbackCard";
+import FeedbackCard from "../feedback/FeedbackCard";
 
 export default function InterviewChat({ topic, questions, onClose }) {
   const [messages, setMessages] = useState([]);
