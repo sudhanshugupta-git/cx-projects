@@ -1,12 +1,49 @@
+h2 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #222;
+}
+
+/* Topics Section */
+#topics-container {
+  margin: 30px 0;
+}
+
+.topic-btn {
+  margin: 8px;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.topic-btn:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.topic-btn.selected {
+  background-color: #4caf50;
+  color: white;
+  border-color: #4caf50;
+}
+
+
+/* Generate Button */
 #generate-btn {
   background: linear-gradient(45deg, #6a11cb, #2575fc);
   color: white;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 15px;
 }
 
 #generate-btn:hover {
@@ -15,4 +52,38 @@
 
 #generate-btn:active {
   transform: scale(0.95);
+}
+
+
+/* Dark Theme */
+@media (prefers-color-scheme: dark) {
+
+  h2 {
+    color: #ddd;
+  }
+
+  .topic-btn {
+    background-color: #2a2a2a;
+    color: #ddd;
+    border: 1px solid #444;
+  }
+
+  .topic-btn:hover {
+    background-color: #3a3a3a;
+  }
+
+  .topic-btn.selected {
+    background-color: #66bb6a;
+    color: #fff;
+    border-color: #66bb6a;
+  }
+
+  #generate-btn {
+    background: linear-gradient(45deg, #2196f3, #1e88e5);
+  }
+
+  #generate-btn:hover {
+    background-color: #1976d2;
+  }
+
 }

@@ -17,7 +17,7 @@ export default function FeedbackCard({ messages, apiKey, model, onClose }) {
         Based on the following interview, respond with:
 
         Score: <number out of 10>
-        Feedback: <5 to 7 word summary>
+        Feedback: Generate a short and friendly feedback message. Compliment the candidate's best answer, suggest an area for improvement, and end on a positive note related to conversation in short. Ensure the feedback is not too long.
 
         Conversation:
         ${historyText}

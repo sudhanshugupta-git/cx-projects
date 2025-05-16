@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
-import './Topics.css'; 
+import React, { useState } from "react";
+import "./Topics.css";
 
 const Topics = ({ onSelectTopic }) => {
   const topics = [
-    'Java', 'HTML', 'CSS', 'JavaScript', 'Node.js', 'Express', 'React', 'SQL', 'MongoDB', 'System Design'
+    "Java",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "Node.js",
+    "Express",
+    "React",
+    "SQL",
+    "MongoDB",
+    "System Design",
   ];
 
   const [selectedTopics, setSelectedTopics] = useState([]);
@@ -23,12 +32,14 @@ const Topics = ({ onSelectTopic }) => {
 
   return (
     <div id="topics-container">
-      <h2>Select Topics:</h2>
+      <h2>Select Topic(s):</h2>
       <div className="topics">
         {topics.map((topic) => (
           <button
             key={topic}
-            className={`topic-btn ${selectedTopics.includes(topic) ? 'selected' : ''}`}
+            className={`topic-btn ${
+              selectedTopics.includes(topic) ? "selected" : ""
+            }`}
             onClick={() => toggleTopic(topic)}
           >
             {topic}
