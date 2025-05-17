@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./InterviewChat.css";
-import sendIcon from "../assets/send.png";
-import micIcon from "../assets/mic.png";
+import end from "../assets/phone-call-end.png";
 import FeedbackCard from "../feedback/FeedbackCard";
 
 export default function InterviewChat({
@@ -13,6 +12,10 @@ export default function InterviewChat({
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [showFeedback, setShowFeedback] = useState(false);
+  const [displayedBotText, setDisplayedBotText] = useState("");
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const synthRef = useRef(window.speechSynthesis);
+  const utterRef = useRef(null);
 
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -24,6 +27,9 @@ export default function InterviewChat({
   const MODEL = "gemini-2.0-flash";
   const botName = interviewer.name;
 
+  // Fade-out state
+  const [fadeOut, setFadeOut] = useState(false);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -32,6 +38,13 @@ export default function InterviewChat({
     inputRef.current?.focus();
     startInterview();
   }, []);
+
+  // When feedback is shown (interview ends), fade out the screen
+  useEffect(() => {
+    if (showFeedback) {
+      setFadeOut(true);
+    }
+  }, [showFeedback]);
 
   const buildConversationText = (conversation) =>
     conversation
@@ -80,7 +93,7 @@ export default function InterviewChat({
     const prompt = `
         You are an interview bot named ${interviewer.name}.
         Personality: ${interviewer.description}
-        You are interviewing a candidate for the following position: ${topic} 
+        You are interviewing a candidate on the topic(s): ${topic} 
 
         These are the questions you need to ask:
         ${questions.map((q, i) => `${i + 1}. ${q.question}`).join("\n")}
@@ -89,9 +102,9 @@ export default function InterviewChat({
         - Greet the candidate first.
         - Ask one question at a time.
         - You are an interviewer and hence your tone should be polite and professional and Your are not allowed to give answers directly.
-        - After each answer, If you feel that something important the candicate has missed which can impact their performance then ask if he/she wants to add something else.
+        - After each answer, If you feel that something important the candicate has missed which he/she might also know and that could impact their performance then ask if he/she wants to add something else.
         - If "yes", wait for more input; if "no", proceed to the next.
-        - You have to analyze every response of the candidate and respond accordingly.
+        - You have to analyze every response of the candidate and then respond accordingly.
         - You will not make is_end true till the end of the interview.
         - Be concise (under 50 words).
 
@@ -169,27 +182,118 @@ export default function InterviewChat({
     }
   };
 
+  // Typing effect and voice narration for bot message
+  useEffect(() => {
+    const lastMsg = messages[messages.length - 1];
+    if (lastMsg && lastMsg.sender === "bot") {
+      setDisplayedBotText("");
+      let idx = 0;
+      let text = lastMsg.text;
+      let typingInterval;
+      // Stop any previous speech
+      if (synthRef.current && synthRef.current.speaking) {
+        synthRef.current.cancel();
+      }
+      // Typing effect
+      typingInterval = setInterval(() => {
+        setDisplayedBotText((prev) => {
+          const next = text.slice(0, prev.length + 1);
+          if (next.length === text.length) {
+            clearInterval(typingInterval);
+            // Start voice after typing
+            speakText(text);
+          }
+          return next;
+        });
+      }, 18);
+      return () => clearInterval(typingInterval);
+    }
+    // eslint-disable-next-line
+  }, [messages]);
+
+  // Voice narration
+  const speakText = (text) => {
+    if (!window.speechSynthesis) return;
+    setIsSpeaking(true);
+    const utter = new window.SpeechSynthesisUtterance(text);
+    // Set voice based on interviewer
+    let desiredVoiceName = null;
+    if (interviewer.name === "Bob") {
+      desiredVoiceName = "Microsoft Madhur Online (Natural) - Hindi (India)";
+    } else if (interviewer.name === "Mike") {
+      desiredVoiceName = "Microsoft Prabhat Online (Natural) - English (India)";
+    } else if (interviewer.name === "Eva") {
+      desiredVoiceName = "Microsoft Neerja Online (Natural) - English (India)";
+    }
+    const voices = window.speechSynthesis.getVoices();
+    if (desiredVoiceName) {
+      const foundVoice = voices.find((v) => v.name === desiredVoiceName);
+      if (foundVoice) {
+        utter.voice = foundVoice;
+      }
+    }
+    utter.rate = 1.25;
+    utter.pitch = 1;
+    utter.volume = 1;
+    utter.onend = () => setIsSpeaking(false);
+    utter.onerror = () => setIsSpeaking(false);
+    utterRef.current = utter;
+    synthRef.current.speak(utter);
+  };
+
   return (
-    <div className="chat-window">
+    <div
+      className={`chat-window bot-center-window${fadeOut ? " fade-out" : ""}`}
+    >
       <div className="chat-header">
-        {botName} - Your Interview Bot
-        <button className="close-button" onClick={onClose}>
-          ❌
+        <button
+          className="close-button"
+          onClick={onClose}
+          disabled={showFeedback}
+        >
+          <img src={end} alt="Close" className="close-icon" />
         </button>
       </div>
 
-      <div className="chat-messages">
-        {messages.map((msg, idx) => (
-          <div
-            key={idx}
-            className={`chat-message ${
-              msg.sender === "bot" ? "bot-message" : "user-message"
-            }`}
-          >
-            {msg.text}
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
+      <div className="bot-center-message-container">
+        {messages.length > 0 &&
+          messages[messages.length - 1].sender === "bot" && (
+            <div className="bot-center-message">
+              {displayedBotText}
+              {/* Show voice-indicator only after typing is complete */}
+              {displayedBotText === messages[messages.length - 1].text && (
+                <span
+                  className={`voice-indicator${isSpeaking ? " speaking" : ""}`}
+                  role="button"
+                  tabIndex={0}
+                  title={
+                    isSpeaking
+                      ? "Stop voice narration"
+                      : "Replay voice narration"
+                  }
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    if (isSpeaking) {
+                      synthRef.current.cancel();
+                    } else {
+                      speakText(messages[messages.length - 1].text);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      if (isSpeaking) {
+                        synthRef.current.cancel();
+                      } else {
+                        speakText(messages[messages.length - 1].text);
+                      }
+                    }
+                  }}
+                >
+                  🔊
+                </span>
+              )}
+            </div>
+          )}
       </div>
 
       <div className="chat-input-container">
@@ -201,19 +305,21 @@ export default function InterviewChat({
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleUserInput}
+          disabled={showFeedback}
         />
         <button
           className="send-button"
           onClick={userInput.trim() ? handleUserInput : toggleRecording}
+          disabled={showFeedback}
         >
           {userInput.trim() ? (
-            <img src={sendIcon} alt="Send" className="send-icon" />
+            <i className="uil uil-message send-icon"></i>
           ) : (
-            <img
-              src={micIcon}
-              alt="Mic"
-              className={`send-icon ${isRecording ? "recording" : ""}`}
-            />
+            <i
+              className={`uil uil-microphone send-icon ${
+                isRecording ? "recording" : ""
+              }`}
+            ></i>
           )}
         </button>
       </div>
