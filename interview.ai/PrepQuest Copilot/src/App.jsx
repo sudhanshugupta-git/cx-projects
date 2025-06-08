@@ -3,8 +3,11 @@ import "./App.css";
 import Topics from "./topics/Topics";
 import InterviewChat from "./interview/InterviewChat";
 import InterviewerSelection from "./interview/InterviewerSelection";
+import { AuthProvider, useAuth } from "./auth/AuthContext";
+import AuthForm from "./auth/AuthForm";
 
-const App = () => {
+const AppContent = () => {
+  const { user, logout } = useAuth();
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [showChat, setShowChat] = useState(false);
@@ -102,8 +105,16 @@ const App = () => {
     setShowChat(false);
   };
 
+  if (!user) {
+    return <AuthForm />;
+  }
   return (
     <div className="container">
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <button onClick={logout} className="logout-btn">
+          <i class="uil uil-signout"></i>
+        </button>
+      </div>
       <h1 className="title">PrepQuest Copilot</h1>
       <h3 className="slogan">
         Your AI-powered assistant to help you ace your next interview!
@@ -113,11 +124,11 @@ const App = () => {
           <p className="loading-animation">Starting...</p>
         </div>
       ) : showInterviewerSelection ? (
-          <InterviewerSelection
-            onSelectInterviewer={handleInterviewerSelect}
-            handleConfirm={handleStartInterview}
-            handleReturn={handleBackToTopics}
-          />
+        <InterviewerSelection
+          onSelectInterviewer={handleInterviewerSelect}
+          handleConfirm={handleStartInterview}
+          handleReturn={handleBackToTopics}
+        />
       ) : showChat ? (
         <InterviewChat
           topic={selectedTopics}
@@ -131,5 +142,11 @@ const App = () => {
     </div>
   );
 };
+
+const App = () => (
+  <AuthProvider>
+    <AppContent />
+  </AuthProvider>
+);
 
 export default App;

@@ -13,6 +13,7 @@ html, body {
   align-items: start;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   overflow-y: auto;
+  width: 100%;
 }
 
 /* Root Container */

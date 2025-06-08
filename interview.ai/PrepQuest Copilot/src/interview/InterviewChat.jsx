@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./InterviewChat.css";
 import end from "../assets/phone-call-end.png";
 import FeedbackCard from "../feedback/FeedbackCard";
+import { useAuth } from "../auth/AuthContext";
 
 export default function InterviewChat({
   topic,
@@ -14,12 +15,12 @@ export default function InterviewChat({
   const [showFeedback, setShowFeedback] = useState(false);
   const [displayedBotText, setDisplayedBotText] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+
   const synthRef = useRef(window.speechSynthesis);
   const utterRef = useRef(null);
-
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);
-
   const [isRecording, setIsRecording] = useState(false);
   const recognitionRef = useRef(null);
 
@@ -27,8 +28,9 @@ export default function InterviewChat({
   const MODEL = "gemini-2.0-flash";
   const botName = interviewer.name;
 
-  // Fade-out state
-  const [fadeOut, setFadeOut] = useState(false);
+  const { user } = useAuth();
+  const [sessionId, setSessionId] = useState(null);
+  const [sessionStart, setSessionStart] = useState(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -39,19 +41,43 @@ export default function InterviewChat({
     startInterview();
   }, []);
 
-  // When feedback is shown (interview ends), fade out the screen
   useEffect(() => {
-    if (showFeedback) {
-      setFadeOut(true);
-    }
+    if (showFeedback) setFadeOut(true);
   }, [showFeedback]);
 
-  const buildConversationText = (conversation) =>
-    conversation
-      .map(
-        (msg) => `${msg.sender === "bot" ? botName : "Candidate"}: ${msg.text}`
-      )
-      .join("\n");
+  useEffect(() => {
+    if (user) {
+      const now = new Date();
+      const startTime = now.toLocaleTimeString("en-GB", { hour12: false });
+      // console.log(typeof startTime + " " + startTime);
+      setSessionStart(startTime);
+      fetch("http://localhost:3001/api/v1/session/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: user.user_id || user.id,
+          start_time: startTime,
+          end_time: null,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => setSessionId(data.data.session_id))
+        .catch((err) => console.error("Failed to start session:", err));
+    }
+  }, [user]);
+
+
+  useEffect(() => {
+    return () => {
+      if (synthRef.current?.speaking) synthRef.current.cancel();
+      if (recognitionRef.current) recognitionRef.current.stop();
+    };
+  }, []);
+
+
+
+  const buildConversationText = (conversation) => conversation.map((msg) => `${msg.sender === "bot" ? botName : "Candidate"}: ${msg.text}`).join("\n");
+
 
   const postToGemini = async (contents, withConfig = false) => {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
@@ -159,7 +185,7 @@ export default function InterviewChat({
       const recognition = new window.webkitSpeechRecognition();
       recognition.continuous = false;
       recognition.interimResults = false;
-      recognition.lang = "en-US";
+      recognition.lang = "en-IN";
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
@@ -182,7 +208,7 @@ export default function InterviewChat({
     }
   };
 
-  // Typing effect and voice narration for bot message
+  // Typing effect for bot message
   useEffect(() => {
     const lastMsg = messages[messages.length - 1];
     if (lastMsg && lastMsg.sender === "bot") {
@@ -205,7 +231,7 @@ export default function InterviewChat({
           }
           return next;
         });
-      }, 18);
+      }, 15);
       return () => clearInterval(typingInterval);
     }
     // eslint-disable-next-line
@@ -232,7 +258,7 @@ export default function InterviewChat({
         utter.voice = foundVoice;
       }
     }
-    utter.rate = 1.25;
+    utter.rate = 1.3;
     utter.pitch = 1;
     utter.volume = 1;
     utter.onend = () => setIsSpeaking(false);
@@ -279,15 +305,6 @@ export default function InterviewChat({
                       speakText(messages[messages.length - 1].text);
                     }
                   }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      if (isSpeaking) {
-                        synthRef.current.cancel();
-                      } else {
-                        speakText(messages[messages.length - 1].text);
-                      }
-                    }
-                  }}
                 >
                   🔊
                 </span>
@@ -329,6 +346,9 @@ export default function InterviewChat({
           messages={messages}
           apiKey={API_KEY}
           model={MODEL}
+          botName={botName}
+          sessionId={sessionId}
+          startTime={sessionStart}
           onClose={() => setShowFeedback(false)}
         />
       )}
