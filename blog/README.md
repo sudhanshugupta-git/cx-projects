@@ -1,7 +1,7 @@
 ## commands i used to build the application
 - 1. npm init -y
 - 2. npm install dotenv --save
-- 3. npm install express sequelize mysql2
+- 3. npm install express sequelize mysql2 cors axios
 - 4. npm install sequelize-cli --save-dev
 - 5. npx sequelize-cli init   
 - 6. create sequelizerc if need to configure config or any models
